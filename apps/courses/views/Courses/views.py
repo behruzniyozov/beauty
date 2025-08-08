@@ -1,16 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from beauty.apps.courses.models import Course
-from beauty.apps.courses.serializers.Course.serializers import *
+from rest_framework.permissions import IsAuthenticated
+from apps.courses.models import Course
+from apps.courses.serializers.Courses.serializers import *
 
 class CourseListView(APIView):
+    permission_classes = []
     def get(self, request):
         courses = Course.objects.all()
         serializer = CourseListSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class CourseDetailView(APIView):
+    permission_classes = []
     def get(self, request, pk):
         try:
             course = Course.objects.get(pk=pk)
@@ -20,6 +23,7 @@ class CourseDetailView(APIView):
             return Response({"detail": "Course not found."}, status=status.HTTP_404_NOT_FOUND)
         
 class CourseCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = CourseCreateSerializer(data=request.data)
         if serializer.is_valid():
@@ -28,6 +32,7 @@ class CourseCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class CourseUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, pk):
         try:
             course = Course.objects.get(pk=pk)
@@ -40,6 +45,7 @@ class CourseUpdateView(APIView):
             return Response({"detail": "Course not found."}, status=status.HTTP_404_NOT_FOUND)
         
 class CourseDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request, pk):
         try:
             course = Course.objects.get(pk=pk)

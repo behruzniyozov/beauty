@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from beauty.apps.news.models import Event
+from apps.news.models import Event
 
 class EventListSerializer(serializers.ModelSerializer):
     class Meta:

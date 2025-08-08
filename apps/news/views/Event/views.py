@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from beauty.apps.news.models import Event
-from beauty.apps.news.serializers.Event.serializers import *
+from apps.news.models import Event
+from apps.news.serializers.Event.serializers import *
 
 class EventListView(APIView):
     permission_classes = [IsAuthenticated]
@@ -74,6 +74,17 @@ class EventUpdateView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Event.DoesNotExist:
+            return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+class EventDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        try:
+            event = Event.objects.get(pk=pk)
+            event.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Event.DoesNotExist:
             return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
         

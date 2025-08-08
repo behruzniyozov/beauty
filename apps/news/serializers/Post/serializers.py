@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from beauty.apps.news.models import Post
+from apps.news.models import Post
 
 
 class PostListSerializer(serializers.ModelSerializer):

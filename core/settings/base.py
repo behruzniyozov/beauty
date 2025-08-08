@@ -10,6 +10,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 ALLOWED_HOSTS = ["*"]
 
 
+EXTERNAL_APPS = ["daphne", "jazzmin", "rest_framework", "drf_yasg"]
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -20,15 +22,14 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    "apps.common"
+    "apps.common",
     "apps.users",
     "apps.news",
     "apps.courses",
 ]
 
-EXTERNAL_APPS = ["daphne", "jazzmin", "rest_framework", "drf_yasg"]
+INSTALLED_APPS = ["daphne"] + DJANGO_APPS + LOCAL_APPS + EXTERNAL_APPS[1:]
 
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -152,3 +153,10 @@ AES_KEY = os.getenv("AES_KEY", "")
 # RECAPTCHA
 RECAPTCHA_PUBLIC_KEY = os.getenv("RECAPTCHA_PUBLIC_KEY")
 RECAPTCHA_PRIVATE_KEY = os.getenv("RECAPTCHA_PRIVATE_KEY")
+
+AUTH_USER_MODEL = 'users.User'
+ASGI_APPLICATION = 'core.asgi.application'
+
+from core.jazzmin_conf import JAZZMIN_SETTINGS
+
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS

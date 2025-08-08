@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from beauty.apps.courses.models import Comment
+from apps.courses.models import Comment
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:

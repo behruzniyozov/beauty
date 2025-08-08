@@ -1,16 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from beauty.apps.courses.models import Category
-from beauty.apps.courses.serializers.Category.serializers import *
+from rest_framework.permissions import IsAuthenticated
+from apps.courses.models import Category
+from apps.courses.serializers.Category.serializers import *
 
 class CategoryListView(APIView):
+    permission_classes = []
     def get(self, request):
         categories = Category.objects.all()
         serializer = CategoryListSerializer(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class CategoryDetailView(APIView):
+    permission_classes = []
     def get(self, request, pk):
         try:
             category = Category.objects.get(pk=pk)
@@ -20,6 +23,7 @@ class CategoryDetailView(APIView):
             return Response({"detail": "Category not found."}, status=status.HTTP_404_NOT_FOUND)
         
 class CategoryCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = CategoryCreateSerializer(data=request.data)
         if serializer.is_valid():
@@ -29,6 +33,7 @@ class CategoryCreateView(APIView):
     
 
 class CategoryUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, pk):
         try:
             category = Category.objects.get(pk=pk)
@@ -42,6 +47,7 @@ class CategoryUpdateView(APIView):
         
 
 class CategoryDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request, pk):
         try:
             category = Category.objects.get(pk=pk)

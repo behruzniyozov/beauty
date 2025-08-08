@@ -1,16 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from beauty.apps.courses.models import Webinar
-from beauty.apps.courses.serializers.Webinar.serializers import *
+from rest_framework.permissions import IsAuthenticated
+from apps.courses.models import Webinar
+from apps.courses.serializers.Webinar.serializers import *
 
 class WebinarListView(APIView):
+    permission_classes = []
     def get(self, request):
         webinars = Webinar.objects.all()
         serializer = WebinarListSerializer(webinars, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class WebinarDetailView(APIView):
+    permission_classes = []
     def get(self, request, pk):
         try:
             webinar = Webinar.objects.get(pk=pk)
@@ -20,6 +23,7 @@ class WebinarDetailView(APIView):
             return Response({"detail": "Webinar not found."}, status=status.HTTP_404_NOT_FOUND)
         
 class WebinarCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = WebinarCreateSerializer(data=request.data)
         if serializer.is_valid():
@@ -28,6 +32,7 @@ class WebinarCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class WebinarUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, pk):
         try:
             webinar = Webinar.objects.get(pk=pk)
@@ -40,6 +45,7 @@ class WebinarUpdateView(APIView):
             return Response({"detail": "Webinar not found."}, status=status.HTTP_404_NOT_FOUND)
         
 class WebinarDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request, pk):
         try:
             webinar = Webinar.objects.get(pk=pk)

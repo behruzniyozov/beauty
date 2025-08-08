@@ -1,16 +1,19 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from beauty.apps.courses.models import Lesson
-from beauty.apps.courses.serializers.Lesson.serializers import *
+from rest_framework.permissions import IsAuthenticated
+from apps.courses.models import Lesson
+from apps.courses.serializers.Lesson.serializers import *
 
 class LessonListView(APIView):
+    permission_classes = []
     def get(self, request):
         lessons = Lesson.objects.all()
         serializer = LessonListSerializer(lessons, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 class LessonDetailView(APIView):
+    permission_classes = []
     def get(self, request, pk):
         try:
             lesson = Lesson.objects.get(pk=pk)
@@ -20,6 +23,7 @@ class LessonDetailView(APIView):
             return Response({"detail": "Lesson not found."}, status=status.HTTP_404_NOT_FOUND)
         
 class LessonCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = LessonCreateSerializer(data=request.data)
         if serializer.is_valid():
@@ -28,6 +32,7 @@ class LessonCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class LessonUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, pk):
         try:
             lesson = Lesson.objects.get(pk=pk)
@@ -41,6 +46,7 @@ class LessonUpdateView(APIView):
         
 
 class LessonDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request, pk):
         try:
             lesson = Lesson.objects.get(pk=pk)

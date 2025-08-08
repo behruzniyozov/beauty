@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from beauty.apps.courses.models import Course
+from apps.courses.models import Course
 
 class CourseCreateSerializer(serializers.ModelSerializer):
     class Meta:
