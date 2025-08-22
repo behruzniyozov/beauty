@@ -32,6 +32,7 @@ INSTALLED_APPS = ["daphne"] + DJANGO_APPS + LOCAL_APPS + EXTERNAL_APPS[1:]
 
 
 MIDDLEWARE = [
+
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -39,7 +40,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
 ]
+
 
 ROOT_URLCONF = "core.urls"
 
@@ -73,6 +76,7 @@ DATABASES = {
         "ATOMIC_REQUESTS": True,
     }
 }
+print(f'Database configuration: {DATABASES["default"]}')
 
 
 # Password validation

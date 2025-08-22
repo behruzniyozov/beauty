@@ -1,3 +1,6 @@
 from .base import * # noqa
 
-DEBUG = False
+# prod.py
+DEBUG=False
+
+ALLOWED_HOSTS = ["beautymaker.site", "www.beautymaker.site"]
